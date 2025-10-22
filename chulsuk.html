@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>수학여행 출석 확인</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #f5f7fa;
+            height: 100vh;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 8px 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .header-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #4A90E2;
+        }
+
+        .header-center {
+            flex: 1;
+            text-align: center;
+        }
+
+        .class-badge {
+            display: inline-block;
+            color: #4A90E2;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-right {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .control-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 8px;
+            background: #4A90E2;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+            background: #357ABD;
+        }
+
+        .settings-btn {
+            font-size: 18px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 54px 12px 12px 12px;
+            gap: 12px;
+        }
+
+        .section {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .section-header {
+            background: #f8f9fa;
+            padding: 10px 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 14px;
+            position: absolute;
+            left: 16px;
+        }
+
+        .unconfirmed .section-title {
+            color: #FF6B6B;
+        }
+
+        .confirmed .section-title {
+            color: #51CF66;
+        }
+
+        .count {
+            background: #4A90E2;
+            color: white;
+            padding: 4px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+            margin: 0 auto;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(var(--card-size), 1fr));
+            gap: 8px;
+            padding: 4px;
+        }
+
+        :root {
+            --card-size: 60px;
+            --font-size: 15px;
+        }
+
+        .student-card {
+            background: white;
+            border-radius: 12px;
+            padding: 6px 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            font-size: var(--font-size);
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            min-height: var(--card-size);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid #f0f0f0;
+            line-height: 1.3;
+            word-break: keep-all;
+        }
+
+        .student-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .student-card.male::before {
+            background: #4A90E2;
+        }
+
+        .student-card.female::before {
+            background: #FF5252;
+        }
+
+        .student-card.male {
+            color: #4A90E2;
+            border-color: #E3F2FD;
+        }
+
+        .student-card.female {
+            color: #FF5252;
+            border-color: #FFEBEE;
+        }
+
+        .student-card:active {
+            transform: scale(0.95);
+        }
+
+        .confirmed .student-card {
+            opacity: 0.6;
+        }
+
+        /* 설정 모달 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #4A90E2;
+        }
+
+        .class-option {
+            background: #f8f9fa;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .class-option:active {
+            transform: scale(0.98);
+        }
+
+        .class-option.selected {
+            background: #4A90E2;
+            color: white;
+            border-color: #357ABD;
+        }
+
+        /* 스크롤바 스타일 */
+        .section::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .section::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .section::-webkit-scrollbar-thumb {
+            background: #d0d0d0;
+            border-radius: 2px;
+        }
+
+        /* 축하 메시지 */
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .celebration.active {
+            display: flex;
+        }
+
+        .celebration-content {
+            text-align: center;
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            animation: bounce 0.6s ease-in-out;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ffd700;
+            position: absolute;
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .firework {
+            position: absolute;
+            font-size: 40px;
+            animation: firework-burst 1s ease-out forwards;
+        }
+
+        @keyframes firework-burst {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="header-title">✈️ IASA 출첵</div>
+        </div>
+        <div class="header-center">
+            <div class="class-badge"><span id="current-class-display">1</span>반</div>
+        </div>
+        <div class="header-right">
+            <div class="header-controls">
+                <button class="control-btn" onclick="resetAttendance()" title="처음으로 리셋">🔄</button>
+                <button class="control-btn" onclick="decreaseCardSize()">-</button>
+                <button class="control-btn" onclick="increaseCardSize()">+</button>
+                <button class="control-btn settings-btn" onclick="openSettings()">⚙️</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section unconfirmed">
+            <div class="section-header">
+                <span class="section-title">❌ 미확인</span>
+                <span class="count" id="unconfirmed-count">0</span>
+            </div>
+            <div class="cards-container" id="unconfirmed-container"></div>
+        </div>
+
+        <div class="section confirmed">
+            <div class="section-header">
+                <span class="section-title">✅ 확인</span>
+                <span class="count" id="confirmed-count-display">0</span>
+            </div>
+            <div class="cards-container" id="confirmed-container"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">반 선택</div>
+            <div id="class-options">
+                <div class="class-option" onclick="selectAndApplyClass(1)">1반</div>
+                <div class="class-option" onclick="selectAndApplyClass(2)">2반</div>
+                <div class="class-option" onclick="selectAndApplyClass(3)">3반</div>
+                <div class="class-option" onclick="selectAndApplyClass(4)">4반</div>
+                <div class="class-option" onclick="selectAndApplyClass(5)">5반</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration" onclick="closeCelebration()">
+        <div class="celebration-content">
+            🎉 출석완료!! 🎉
+        </div>
+    </div>
+
+    <script>
+        // IASA 해외탐방 학생 데이터
+        const studentsData = {
+            1: [
+                { name: "권담은", gender: "female" },
+                { name: "김보민", gender: "female" },
+                { name: "정서연", gender: "female" },
+                { name: "권우진", gender: "male" },
+                { name: "김강윤", gender: "male" },
+                { name: "마진욱", gender: "male" },
+                { name: "박민준", gender: "male" },
+                { name: "박상윤", gender: "male" },
+                { name: "서우진", gender: "male" },
+                { name: "이지상", gender: "male" },
+                { name: "이현존", gender: "male" },
+                { name: "장연재", gender: "male" },
+                { name: "정지후", gender: "male" },
+                { name: "최준우", gender: "male" },
+                { name: "홍근우", gender: "male" },
+                { name: "홍재민", gender: "male" }
+            ],
+            2: [
+                { name: "강효린", gender: "female" },
+                { name: "윤지후", gender: "female" },
+                { name: "이영서", gender: "female" },
+                { name: "홍유진", gender: "female" },
+                { name: "강은찬", gender: "male" },
+                { name: "박진우", gender: "male" },
+                { name: "박한선", gender: "male" },
+                { name: "송예준", gender: "male" },
+                { name: "송지환", gender: "male" },
+                { name: "이경록", gender: "male" },
+                { name: "이다현", gender: "male" },
+                { name: "이원준", gender: "male" },
+                { name: "임지후", gender: "male" },
+                { name: "조영준", gender: "male" },
+                { name: "홍민규", gender: "male" },
+                { name: "황선우", gender: "male" }
+            ],
+            3: [
+                { name: "김하경", gender: "female" },
+                { name: "송윤서", gender: "female" },
+                { name: "홍지민", gender: "female" },
+                { name: "김주헌", gender: "male" },
+                { name: "김진원", gender: "male" },
+                { name: "박세현", gender: "male" },
+                { name: "박효성", gender: "male" },
+                { name: "배병찬", gender: "male" },
+                { name: "송민건", gender: "male" },
+                { name: "엄재현", gender: "male" },
+                { name: "윤건우", gender: "male" },
+                { name: "이현택", gender: "male" },
+                { name: "장도연", gender: "male" },
+                { name: "장원준", gender: "male" },
+                { name: "정규원", gender: "male" }
+            ],
+            4: [
+                { name: "남세령", gender: "female" },
+                { name: "백승해", gender: "female" },
+                { name: "신채민", gender: "female" },
+                { name: "강민서", gender: "male" },
+                { name: "김민혁", gender: "male" },
+                { name: "민준우", gender: "male" },
+                { name: "박예성", gender: "male" },
+                { name: "박준모", gender: "male" },
+                { name: "변우석", gender: "male" },
+                { name: "손정훈", gender: "male" },
+                { name: "신재원", gender: "male" },
+                { name: "양병후", gender: "male" },
+                { name: "이제하", gender: "male" },
+                { name: "이충현", gender: "male" },
+                { name: "조인성", gender: "male" },
+                { name: "최준영", gender: "male" }
+            ],
+            5: [
+                { name: "이나윤", gender: "female" },
+                { name: "이세아", gender: "female" },
+                { name: "권도윤", gender: "male" },
+                { name: "권용우", gender: "male" },
+                { name: "길민교", gender: "male" },
+                { name: "김건", gender: "male" },
+                { name: "김건호", gender: "male" },
+                { name: "김재원", gender: "male" },
+                { name: "김정훈", gender: "male" },
+                { name: "박준호", gender: "male" },
+                { name: "심동하", gender: "male" },
+                { name: "윤동현", gender: "male" },
+                { name: "이수혁", gender: "male" },
+                { name: "이용준", gender: "male" },
+                { name: "조신우", gender: "male" }
+            ]
+        };
+
+        let currentClass = 1;
+        let selectedClass = 1;
+        let cardSize = parseInt(localStorage.getItem('cardSize')) || 60;
+        let fontSize = parseInt(localStorage.getItem('fontSize')) || 15;
+        let students = [];
+        let confirmedStudents = new Set();
+
+        // 초기 카드 크기와 폰트 크기 적용
+        document.documentElement.style.setProperty('--card-size', cardSize + 'px');
+        document.documentElement.style.setProperty('--font-size', fontSize + 'px');
+
+        function loadStudents() {
+            students = studentsData[currentClass] || [];
+            confirmedStudents.clear();
+            renderStudents();
+        }
+
+        function renderStudents() {
+            const unconfirmedContainer = document.getElementById('unconfirmed-container');
+            const confirmedContainer = document.getElementById('confirmed-container');
+            
+            unconfirmedContainer.innerHTML = '';
+            confirmedContainer.innerHTML = '';
+
+            // 정렬: 여학생 먼저, 각 성별 내에서 가나다순
+            const sortedStudents = [...students].sort((a, b) => {
+                // 성별 우선 정렬 (여학생이 먼저)
+                if (a.gender !== b.gender) {
+                    return a.gender === 'female' ? -1 : 1;
+                }
+                // 같은 성별 내에서 이름순 (가나다순)
+                return a.name.localeCompare(b.name, 'ko');
+            });
+
+            sortedStudents.forEach((student) => {
+                // 원래 인덱스 찾기
+                const originalIndex = students.findIndex(s => s.name === student.name && s.gender === student.gender);
+                const card = createStudentCard(student, originalIndex);
+                if (confirmedStudents.has(originalIndex)) {
+                    confirmedContainer.appendChild(card);
+                } else {
+                    unconfirmedContainer.appendChild(card);
+                }
+            });
+
+            updateCounts();
+        }
+
+        function createStudentCard(student, index) {
+            const card = document.createElement('div');
+            card.className = `student-card ${student.gender}`;
+            card.textContent = student.name;
+            card.onclick = () => toggleStudent(index);
+            return card;
+        }
+
+        function toggleStudent(index) {
+            if (confirmedStudents.has(index)) {
+                confirmedStudents.delete(index);
+            } else {
+                confirmedStudents.add(index);
+            }
+            renderStudents();
+        }
+
+        function resetAttendance() {
+            confirmedStudents.clear();
+            renderStudents();
+        }
+
+        function updateCounts() {
+            const total = students.length;
+            const confirmed = confirmedStudents.size;
+            const unconfirmed = total - confirmed;
+
+            document.getElementById('confirmed-count-display').textContent = confirmed;
+            document.getElementById('unconfirmed-count').textContent = unconfirmed;
+
+            // 출석 완료 체크 (미확인이 0명이고 학생이 1명 이상일 때)
+            if (unconfirmed === 0 && total > 0) {
+                showCelebration();
+            }
+        }
+
+        function showCelebration() {
+            const celebration = document.getElementById('celebration');
+            celebration.classList.add('active');
+
+            // 폭죽 효과 생성
+            createFireworks();
+
+            // 3초 후 자동으로 닫기
+            setTimeout(() => {
+                closeCelebration();
+            }, 3000);
+        }
+
+        function closeCelebration() {
+            const celebration = document.getElementById('celebration');
+            celebration.classList.remove('active');
+            // 폭죽 요소들 제거
+            document.querySelectorAll('.confetti, .firework').forEach(el => el.remove());
+        }
+
+        function createFireworks() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffd700'];
+            
+            // 여러 위치에서 폭죽 생성
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 20);
+            }
+
+            // 폭죽 이모지 효과
+            const fireworkEmojis = ['🎆', '🎇', '✨', '💫', '⭐'];
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.textContent = fireworkEmojis[Math.floor(Math.random() * fireworkEmojis.length)];
+                    firework.style.left = (20 + Math.random() * 60) + '%';
+                    firework.style.top = (20 + Math.random() * 60) + '%';
+                    document.getElementById('celebration').appendChild(firework);
+
+                    setTimeout(() => firework.remove(), 1000);
+                }, i * 100);
+            }
+        }
+
+        function increaseCardSize() {
+            if (cardSize < 100) {
+                cardSize += 10;
+                fontSize += 2;
+                document.documentElement.style.setProperty('--card-size', cardSize + 'px');
+                document.documentElement.style.setProperty('--font-size', fontSize + 'px');
+                // localStorage에 저장
+                localStorage.setItem('cardSize', cardSize);
+                localStorage.setItem('fontSize', fontSize);
+            }
+        }
+
+        function decreaseCardSize() {
+            if (cardSize > 40) {
+                cardSize -= 10;
+                // 글자 크기는 최소 15px 유지
+                if (fontSize > 15) {
+                    fontSize -= 2;
+                }
+                document.documentElement.style.setProperty('--card-size', cardSize + 'px');
+                document.documentElement.style.setProperty('--font-size', fontSize + 'px');
+                // localStorage에 저장
+                localStorage.setItem('cardSize', cardSize);
+                localStorage.setItem('fontSize', fontSize);
+            }
+        }
+
+        function openSettings() {
+            selectedClass = currentClass;
+            document.getElementById('settings-modal').classList.add('active');
+            updateClassSelection();
+        }
+
+        function closeSettings() {
+            document.getElementById('settings-modal').classList.remove('active');
+        }
+
+        function selectAndApplyClass(classNum) {
+            currentClass = classNum;
+            selectedClass = classNum;
+            document.getElementById('current-class-display').textContent = currentClass;
+            loadStudents();
+            updateClassSelection();
+            // 짧은 지연 후 모달 닫기
+            setTimeout(() => {
+                closeSettings();
+            }, 300);
+        }
+
+        function updateClassSelection() {
+            const options = document.querySelectorAll('.class-option');
+            options.forEach((option, index) => {
+                if (index + 1 === selectedClass) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            });
+        }
+
+        // 초기화
+        document.getElementById('current-class-display').textContent = currentClass;
+        loadStudents();
+    </script>
+</body>
+</html>
