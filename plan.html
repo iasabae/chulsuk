@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 IASA 캠프 일정 (수정)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 55px; /* 탭 네비게이션 높이만큼 공간 확보 */
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #004d99;
+            color: white;
+            padding: 15px 10px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            max-width: 600px; /* container의 max-width와 맞춤 */
+            box-sizing: border-box;
+            z-index: 200; /* 탭 네비게이션보다 상위에 위치 */
+        }
+        .tab-nav {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            background-color: #e9e9e9;
+            border-bottom: 2px solid #ccc;
+            padding: 0 5px;
+            
+            /* 상단 고정 (Sticky) 스타일 */
+            position: fixed;
+            top: 55px; /* 헤더 아래에 위치 */
+            width: 100%;
+            max-width: 600px; /* container의 max-width와 맞춤 */
+            box-sizing: border-box;
+            z-index: 100;
+        }
+        .tab-button {
+            flex: 0 0 auto;
+            background-color: transparent;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: 600;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+            border-bottom: 3px solid transparent;
+            margin: 0 2px;
+            line-height: 1.2;
+        }
+        .tab-button.active {
+            background-color: #fff;
+            color: #004d99;
+            border-bottom: 3px solid #004d99;
+        }
+        .tab-content {
+            padding: 15px;
+            margin-top: 50px; /* 탭 네비게이션 높이만큼 추가 공간 확보 */
+        }
+        .schedule-day {
+            display: none;
+        }
+        .schedule-day.active {
+            display: block;
+        }
+        .schedule-item {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            align-items: flex-start;
+        }
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+        .time {
+            flex: 0 0 65px;
+            font-weight: bold;
+            color: #555;
+            padding-right: 10px;
+            font-size: 0.9em;
+        }
+        .details {
+            flex-grow: 1;
+            font-size: 0.9em;
+        }
+        .details strong {
+            color: #004d99;
+        }
+        .city {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #004d99;
+            margin-bottom: 8px;
+            padding-top: 5px;
+            border-top: 1px dashed #ccc;
+        }
+        .city:first-child {
+            border-top: none;
+        }
+        .transport {
+            font-style: italic;
+            color: #888;
+            font-size: 0.8em;
+            margin-top: 3px;
+        }
+        @media (min-width: 600px) {
+            .header, .tab-nav {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        2025 IASA 글로벌 이공계 체험캠프 일정
+    </div>
+
+    <div class="tab-nav">
+        <button class="tab-button active" onclick="openDay(event, 'day1')">1일차<br>10/25(토)</button>
+        <button class="tab-button" onclick="openDay(event, 'day2')">2일차<br>10/26(일)</button>
+        <button class="tab-button" onclick="openDay(event, 'day3')">3일차<br>10/27(월)</button>
+        <button class="tab-button" onclick="openDay(event, 'day4')">4일차<br>10/28(화)</button>
+        <button class="tab-button" onclick="openDay(event, 'day5')">5일차<br>10/29(수)</button>
+        <button class="tab-button" onclick="openDay(event, 'day6')">6일차<br>10/30(목)</button>
+        <button class="tab-button" onclick="openDay(event, 'day7')">7일차<br>10/31(금)</button>
+        <button class="tab-button" onclick="openDay(event, 'day8_9')">8~9일차<br>11/1(토)~11/2(일)</button>
+    </div>
+
+    <div class="tab-content">
+        <div id="day1" class="schedule-day active">
+            <div class="city">인천 / 샌프란시스코</div>
+            <div class="schedule-item">
+                <div class="time">13:00</div>
+                <div class="details">인천공항 제2터미널 C카운터앞 집합</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">16:00</div>
+                <div class="details">인천출발, 샌프란시스코행<div class="transport">대한항공 KE0023</div></div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">10:40</div>
+                <div class="details">샌프란시스코 도착</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">중식</div>
+                <div class="details">FILLIES PIZZA (피자, 샐러드)</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">14:30</div>
+                <div class="details">
+                    <p><strong>● 실리콘 밸리 기업 탐방</strong></p>
+                    <ul>
+                        <li>Google 캠퍼스</li>
+                        <li>Apple Visitor 센터</li>
+                        <li>Tesla Factory Showroom</li>
+                    </ul>
+                    <div class="transport">전용버스</div>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">18:00</div>
+                <div class="details">
+                    (석식) 콩사랑순두부 (한식) / 마트(푸드맥스)<br>
+                    (숙소) Double Tree by Hilton Newark Fremont
+                </div>
+            </div>
+        </div>
+
+        <div id="day2" class="schedule-day">
+            <div class="city">샌프란시스코</div>
+            <div class="schedule-item">
+                <div class="time">08:00</div>
+                <div class="details">호텔조식후 출발</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">09:00</div>
+                <div class="details">
+                    <strong>Stanford University 탐방</strong>
+                    <ul>
+                        <li>졸업생 연계 5개 분야별 특강 및 멘토링</li>
+                        <li>캠퍼스 투어</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">11:30</div>
+                <div class="details">(중식) 자유식(대학 카페테리아)</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">13:30</div>
+                <div class="details">
+                    <strong>U.C. Berkeley 탐방</strong>
+                    <ul>
+                        <li>학급별 재학생 동반 캠퍼스투어/간담회</li>
+                    </ul>
+                    <div class="transport">전용버스</div>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">14:30</div>
+                <div class="details">
+                    <ul>
+                        <li>Golden Gate Bridge(금문교)</li>
+                        <li>Exploratorium (과학관)</li>
+                        <li>Pier39</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">17:30</div>
+                <div class="details">(석식) Swiss Louis (파스타, 샐러드)</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">20:00</div>
+                <div class="details"><strong>실리콘벨리 특강</strong> (이정민 박사, META AI 선임 연구원)</div>
+            </div>
+        </div>
+
+        <div id="day3" class="schedule-day">
+            <div class="city">샌프란시스코 / 피닉스 / 플래그스태프</div>
+            <div class="schedule-item">
+                <div class="time">07:00</div>
+                <div class="details">호텔조식후 출발 (06:20 까지 짐챙겨서 체크아웃)</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">09:00</div>
+                <div class="details">샌프란시코 국제공항 출발<div class="transport">American Airline (AA2414)</div></div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">11:05</div>
+                <div class="details">피닉스 국제공항 도착</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">12:30</div>
+                <div class="details">(중식) Golden Corral Buffet(미국식 양식부페)</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">15:00</div>
+                <div class="details">
+                    <strong>세도나 국립공원 탐방</strong>
+                    <ul>
+                        <li>Bell Rock, Airport Mesa</li>
+                    </ul>
+                    <div class="transport">전용버스</div>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">17:00</div>
+                <div class="details">플래그스태프로 이동</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">18:00</div>
+                <div class="details">
+                    (석식) 7STAR CHINESE (중식부페)<br>
+                    (숙소) Holiday Inn Express Flagstaff
+                </div>
+            </div>
+        </div>
+
+        <div id="day4" class="schedule-day">
+            <div class="city">그랜드캐년 / 라스베가스</div>
+            <div class="schedule-item">
+                <div class="time">08:00</div>
+                <div class="details">호텔조식후 그랜드캐년으로 이동 (1시간 30분)</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">09:30</div>
+                <div class="details">
+                    <strong>● 그랜드캐년 사우스림 (매더 포인트) 탐방</strong><br>
+                    <strong>● 후버댐</strong>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">12:00</div>
+                <div class="details">(중식) 프라자보니타 멕시칸 식당</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">13:00</div>
+                <div class="details">라스베가스로 이동 (4시간 30분)<div class="transport">전용버스</div></div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">17:30</div>
+                <div class="details">Sphere(외부)</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">18:00</div>
+                <div class="details">(석식) 김치식당(한식)</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">19:00</div>
+                <div class="details">라스베가스 시내투어</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">20:30</div>
+                <div class="details">(숙소) Excalibur Hotel</div>
+            </div>
+        </div>
+
+        <div id="day5" class="schedule-day">
+            <div class="city">캘리코 / LA</div>
+            <div class="schedule-item">
+                <div class="time">07:00</div>
+                <div class="details">숙소 출발 / (조식) 김치식당<div class="transport">전용버스</div></div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">08:00</div>
+                <div class="details">이동</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">08:30</div>
+                <div class="details">세븐매직마운틴스 (모하비 국립 보호구역내)</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">10:50</div>
+                <div class="details">캘리코 은광촌</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">11:20</div>
+                <div class="details">(중식) Calico House Restaurant(현지식)</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">14:30</div>
+                <div class="details">The Getty 센터 (미술관)</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">16:00</div>
+                <div class="details">
+                    <ul>
+                        <li>Hollywood Walk of Fame HQ (헐리우드 명예거리)</li>
+                        <li>Griffith Observatory (그리피스 천문대)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">18:30</div>
+                <div class="details">
+                    (석식) 북창동 순두부<br>
+                    (숙소) Holiday Inn la Mirada Buena Park
+                </div>
+            </div>
+        </div>
+        
+        <div id="day6" class="schedule-day">
+            <div class="city">LA</div>
+            <div class="schedule-item">
+                <div class="time">08:30</div>
+                <div class="details">호텔조식후 출발<div class="transport">전용버스</div></div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">09:30</div>
+                <div class="details">
+                    <ul>
+                        <li>자연사 박물관 (1시간 10분 관람)</li>
+                        <li>LA FC 경기장 (30분 쇼핑)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">12:00</div>
+                <div class="details">(중식) Caltech 카페테리아 (야외 덮밥)</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">13:00</div>
+                <div class="details">
+                    <strong>● 캘리포니아 공대(CALTECH) 탐방</strong>
+                    <ul>
+                        <li>대학(원)생 연계 그룹별 투어 및 간담회(5개 그룹)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">14:00</div>
+                <div class="details">
+                    <strong>● 노벨상 수상자 특강</strong>
+                    <ul>
+                        <li>프랜시스 아놀드 교수 (2018년 노벨 화학상 수상자)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">15:30</div>
+                <div class="details">
+                    <strong>USC(University of Southern California) 탐방</strong>
+                    <ul>
+                        <li>대학(원)생 연계 그룹별 투어 및 간담회(5개 그룹)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">17:00</div>
+                <div class="details">
+                    <strong>USC 교수님(션킴, 컴퓨터공학 교수) 특강</strong>
+                    <ul>
+                        <li>주제: 미래컴퓨팅기술에 대한 이해</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">18:30</div>
+                <div class="details">(석식) 신북경식당 (중국식 코스)</div>
+            </div>
+        </div>
+        
+        <div id="day7" class="schedule-day">
+            <div class="city">LA</div>
+            <div class="schedule-item">
+                <div class="time">09:00</div>
+                <div class="details">호텔조식후 출발<div class="transport">전용버스</div></div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">10:00</div>
+                <div class="details">
+                    <strong>월트디즈니 콘서트홀 투어</strong> (Self Guided Audio Tour)
+                    <ul>
+                        <li>1호차: 10:00~10:30 투어, 10:30~11:00 차이나타운</li>
+                        <li>2호차: 10:00~10:30 차이나타운, 10:30~11:00 투어</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">12:00</div>
+                <div class="details">
+                    유니버셜 스튜디오 문화 체험<br>
+                    (중식) 자유식
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">17:50</div>
+                <div class="details">출구에서 집합</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">18:40</div>
+                <div class="details">(석식) 청담식당(한식 고기부페)</div>
+            </div>
+        </div>
+
+        <div id="day8_9" class="schedule-day">
+            <div class="city">**8일차: LA / 출발**</div>
+            <div class="schedule-item">
+                <div class="time">오전</div>
+                <div class="details">호텔조식후 로스엔젤레스 국제공항으로 이동</div>
+            </div>
+            <div class="schedule-item">
+                <div class="time">11:50</div>
+                <div class="details">로스엔젤레스 출발<div class="transport">대한항공 KE 0018</div></div>
+            </div>
+            
+            <hr style="margin: 15px 0;">
+
+            <div class="city">**9일차: 인천 도착**</div>
+            <div class="schedule-item">
+                <div class="time">17:40</div>
+                <div class="details">인천공항 도착</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function openDay(evt, dayId) {
+        var i, tabcontent, tablinks;
+
+        // 모든 탭 내용을 숨김
+        tabcontent = document.getElementsByClassName("schedule-day");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // 모든 탭 버튼에서 'active' 클래스를 제거
+        tablinks = document.getElementsByClassName("tab-button");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // 현재 탭 내용을 보여주고 버튼에 'active' 클래스 추가
+        document.getElementById(dayId).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // 초기 로드 시 첫 번째 탭이 활성화되도록 설정
+    document.addEventListener("DOMContentLoaded", function() {
+        // 첫 번째 탭 버튼을 찾아 클릭 이벤트 시뮬레이션
+        document.querySelector(".tab-button").click();
+    });
+</script>
+
+</body>
+</html>
