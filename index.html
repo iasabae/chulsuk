@@ -64,8 +64,10 @@
 
         .main-tab-content {
             display: none;
-            height: 100vh;
-            padding-top: 56px;
+            height: calc(100vh - 35px); /* 탭 네비게이션(56px) + 푸터(약 16px)를 위해 조금 더 확보 */
+            padding-top: 56px; /* 탭 네비게이션 아래에서 시작 */
+            padding-bottom: 10px; /* 푸터에 가려지지 않도록 하단 패딩 추가 */
+            overflow-y: auto; /* 내용이 넘칠 경우 스크롤 가능하게 */
         }
 
         .main-tab-content.active {
@@ -533,6 +535,22 @@
             font-size: 0.8em;
             margin-top: 3px;
         }
+
+        /* 푸터 스타일 추가 */
+#main-footer {
+    position: fixed; /* 화면 하단에 고정 */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center; /* 가운데 정렬 */
+    padding: 8px;
+    background: #ffffff; /* 흰색 배경 (탭 컨텐츠와 구분) */
+    color: #4A90E2; /* 글자색은 강조색 사용 */
+    font-size: 12px; /* 작은 크기 */
+    z-index: 4000; /* 다른 요소 위에 표시 */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05); /* 상단에 그림자 */
+}
+        
     </style>
 </head>
 <body>
@@ -938,6 +956,10 @@
     </div>
 </div>
 
+<footer id="main-footer">
+    <strong>made by BAE</strong>
+</footer>
+    
 <script>
     // ============ 공통 상태 관리 ============
     const STATE_KEY = 'iasa_app_state';
