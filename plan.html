@@ -8,7 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding-top: 100px; /* 헤더 + 탭 네비게이션 높이만큼 공간 확보 (55px + 45px 대략) */
+            padding-top: 100px; /* 헤더 + 탭 네비게이션 높이만큼 공간 확보 */
             background-color: #f4f4f4;
         }
         .container {
@@ -34,7 +34,7 @@
             text-align: center;
             font-size: 1.2em;
             font-weight: bold;
-            position: relative; /* 홈 버튼 배치를 위해 relative 설정 */
+            position: relative;
             box-sizing: border-box;
         }
         
@@ -154,53 +154,53 @@
         </div>
 
         <div class="tab-nav">
-            <button class="tab-button active" onclick="openDay(event, 'day1')">1일차<br>10/25(토)</button>
-            <button class="tab-button" onclick="openDay(event, 'day2')">2일차<br>10/26(일)</button>
-            <button class="tab-button" onclick="openDay(event, 'day3')">3일차<br>10/27(월)</button>
-            <button class="tab-button" onclick="openDay(event, 'day4')">4일차<br>10/28(화)</button>
-            <button class="tab-button" onclick="openDay(event, 'day5')">5일차<br>10/29(수)</button>
-            <button class="tab-button" onclick="openDay(event, 'day6')">6일차<br>10/30(목)</button>
-            <button class="tab-button" onclick="openDay(event, 'day7')">7일차<br>10/31(금)</button>
-            <button class="tab-button" onclick="openDay(event, 'day8_9')">8~9일차<br>11/1(토)~11/2(일)</button>
+            <button class="tab-button" data-day-id="day1" onclick="openDay(event, 'day1')">1일차<br>10/25(토)</button>
+            <button class="tab-button" data-day-id="day2" onclick="openDay(event, 'day2')">2일차<br>10/26(일)</button>
+            <button class="tab-button" data-day-id="day3" onclick="openDay(event, 'day3')">3일차<br>10/27(월)</button>
+            <button class="tab-button" data-day-id="day4" onclick="openDay(event, 'day4')">4일차<br>10/28(화)</button>
+            <button class="tab-button" data-day-id="day5" onclick="openDay(event, 'day5')">5일차<br>10/29(수)</button>
+            <button class="tab-button" data-day-id="day6" onclick="openDay(event, 'day6')">6일차<br>10/30(목)</button>
+            <button class="tab-button" data-day-id="day7" onclick="openDay(event, 'day7')">7일차<br>10/31(금)</button>
+            <button class="tab-button" data-day-id="day8_9" onclick="openDay(event, 'day8_9')">8~9일차<br>11/1(토)~11/2(일)</button>
         </div>
     </div>
     
     <div class="tab-content">
-        <div id="day1" class="schedule-day active">
+        <div id="day1" class="schedule-day">
             <div class="city">인천 / 샌프란시스코</div>
             <div class="schedule-item">
                 <div class="time">13:00</div>
-                [cite_start]<div class="details">인천공항 제2터미널 C카운터앞 집합 [cite: 2]</div>
+                <div class="details">인천공항 제2터미널 C카운터앞 집합</div>
             </div>
             <div class="schedule-item">
                 <div class="time">16:00</div>
-                [cite_start]<div class="details">인천출발, 샌프란시스코행<div class="transport">대한항공 KE0023 [cite: 2]</div></div>
+                <div class="details">인천출발, 샌프란시스코행<div class="transport">대한항공 KE0023</div></div>
             </div>
             <div class="schedule-item">
                 <div class="time">10:40</div>
-                [cite_start]<div class="details">샌프란시스코 도착 [cite: 2]</div>
+                <div class="details">샌프란시스코 도착</div>
             </div>
             <div class="schedule-item">
                 <div class="time">중식</div>
-                [cite_start]<div class="details">FILLIES PIZZA (피자, 샐러드) [cite: 2]</div>
+                <div class="details">FILLIES PIZZA (피자, 샐러드)</div>
             </div>
             <div class="schedule-item">
                 <div class="time">14:30</div>
                 <div class="details">
-                    [cite_start]<p><strong>● 실리콘  밸리 기업 탐방</strong> [cite: 2]</p>
+                    <p><strong>● 실리콘  밸리 기업 탐방</strong></p>
                     <ul>
-                        [cite_start]<li>Google 캠퍼스 [cite: 2]</li>
-                        [cite_start]<li>Apple Visitor 센터 [cite: 2]</li>
-                        [cite_start]<li>Tesla Factory Showroom [cite: 2]</li>
+                        <li>Google 캠퍼스</li>
+                        <li>Apple Visitor 센터</li>
+                        <li>Tesla Factory Showroom</li>
                     </ul>
-                    [cite_start]<div class="transport">전용버스 [cite: 2]</div>
+                    <div class="transport">전용버스</div>
                 </div>
             </div>
             <div class="schedule-item">
                 <div class="time">18:00</div>
                 <div class="details">
-                    (석식) [cite_start]콩사랑순두부 (한식) / 마트(푸드맥스) [cite: 2]<br>
-                    (숙소) [cite_start]Double Tree by Hilton Newark Fremont [cite: 2]
+                    (석식) 콩사랑순두부 (한식) / 마트(푸드맥스)<br>
+                    (숙소) Double Tree by Hilton Newark Fremont
                 </div>
             </div>
         </div>
@@ -209,49 +209,49 @@
             <div class="city">샌프란시스코</div>
             <div class="schedule-item">
                 <div class="time">08:00</div>
-                [cite_start]<div class="details">호텔조식후 출발 [cite: 2]</div>
+                <div class="details">호텔조식후 출발</div>
             </div>
             <div class="schedule-item">
                 <div class="time">09:00</div>
                 <div class="details">
-                    [cite_start]<strong>Stanford University 탐방</strong> [cite: 2]
+                    <strong>Stanford University 탐방</strong>
                     <ul>
-                        [cite_start]<li>졸업생 연계 5개 분야별 (물리, 화학, 생명, 수학, 지구·환경) 특강 및 멘토링 [cite: 2]</li>
-                        [cite_start]<li>캠퍼스 투어 [cite: 2]</li>
+                        <li>졸업생 연계 5개 분야별 (물리, 화학, 생명, 수학, 지구·환경) 특강 및 멘토링</li>
+                        <li>캠퍼스 투어</li>
                     </ul>
                 </div>
             </div>
             <div class="schedule-item">
                 <div class="time">11:30</div>
-                [cite_start]<div class="details">(중식) 자유식(대학 카페테리아) [cite: 2]</div>
+                <div class="details">(중식) 자유식(대학 카페테리아)</div>
             </div>
             <div class="schedule-item">
                 <div class="time">13:30</div>
                 <div class="details">
-                    <strong>U.C. [cite_start]Berkeley 탐방</strong> [cite: 2]
+                    <strong>U.C. Berkeley 탐방</strong>
                     <ul>
-                        [cite_start]<li>학급별 재학생 동반 캠퍼스투어/간담회 [cite: 2]</li>
+                        <li>학급별 재학생 동반 캠퍼스투어/간담회</li>
                     </ul>
-                    [cite_start]<div class="transport">전용버스 [cite: 2]</div>
+                    <div class="transport">전용버스</div>
                 </div>
             </div>
             <div class="schedule-item">
                 <div class="time">14:30</div>
                 <div class="details">
                     <ul>
-                        [cite_start]<li>Golden Gate Bridge(금문교) [cite: 2]</li>
-                        [cite_start]<li>Exploratorium (과학관) [cite: 2]</li>
-                        [cite_start]<li>Pier39 [cite: 2]</li>
+                        <li>Golden Gate Bridge(금문교)</li>
+                        <li>Exploratorium (과학관)</li>
+                        <li>Pier39</li>
                     </ul>
                 </div>
             </div>
             <div class="schedule-item">
                 <div class="time">17:30</div>
-                [cite_start]<div class="details">(석식) Swiss Louis (파스타, 샐러드) [cite: 2]</div>
+                <div class="details">(석식) Swiss Louis (파스타, 샐러드)</div>
             </div>
             <div class="schedule-item">
                 <div class="time">20:00</div>
-                [cite_start]<div class="details"><strong>실리콘벨리 특강</strong> (이정민 박사, META AI 선임 연구원) [cite: 2]</div>
+                <div class="details"><strong>실리콘벨리 특강</strong> (이정민 박사, META AI 선임 연구원)</div>
             </div>
         </div>
 
@@ -259,39 +259,39 @@
             <div class="city">샌프란시스코 / 피닉스 / 플래그스태프</div>
             <div class="schedule-item">
                 <div class="time">07:00</div>
-                [cite_start]<div class="details">호텔조식후 출발 (06:20 까지 짐챙겨서 체크아웃) [cite: 2]</div>
+                <div class="details">호텔조식후 출발 (06:20 까지 짐챙겨서 체크아웃)</div>
             </div>
             <div class="schedule-item">
                 <div class="time">09:00</div>
-                [cite_start]<div class="details">샌프란시코 국제공항 출발<div class="transport">American Airline (AA2414) [cite: 2]</div></div>
+                <div class="details">샌프란시코 국제공항 출발<div class="transport">American Airline (AA2414)</div></div>
             </div>
             <div class="schedule-item">
                 <div class="time">11:05</div>
-                [cite_start]<div class="details">피닉스 국제공항 도착 [cite: 2]</div>
+                <div class="details">피닉스 국제공항 도착</div>
             </div>
             <div class="schedule-item">
                 <div class="time">12:30</div>
-                [cite_start]<div class="details">(중식) Golden Corral Buffet(미국식 양식부페) [cite: 2]</div>
+                <div class="details">(중식) Golden Corral Buffet(미국식 양식부페)</div>
             </div>
             <div class="schedule-item">
                 <div class="time">15:00</div>
                 <div class="details">
-                    [cite_start]<strong>세도나 국립공원 탐방</strong> [cite: 2]
+                    <strong>세도나 국립공원 탐방</strong>
                     <ul>
-                        [cite_start]<li>Bell Rock [cite: 2][cite_start], Airport Mesa [cite: 2]</li>
+                        <li>Bell Rock, Airport Mesa</li>
                     </ul>
-                    [cite_start]<div class="transport">전용버스 [cite: 2]</div>
+                    <div class="transport">전용버스</div>
                 </div>
             </div>
             <div class="schedule-item">
                 <div class="time">17:00</div>
-                [cite_start]<div class="details">플래그스태프로 이동 [cite: 2]</div>
+                <div class="details">플래그스태프로 이동</div>
             </div>
             <div class="schedule-item">
                 <div class="time">18:00</div>
                 <div class="details">
-                    (석식) [cite_start]7STAR CHINESE (중식부페) [cite: 2]<br>
-                    (숙소) [cite_start]Holiday Inn Express Flagstaff [cite: 2]
+                    (석식) 7STAR CHINESE (중식부페)<br>
+                    (숙소) Holiday Inn Express Flagstaff
                 </div>
             </div>
         </div>
@@ -300,38 +300,38 @@
             <div class="city">그랜드캐년 / 라스베가스</div>
             <div class="schedule-item">
                 <div class="time">08:00</div>
-                [cite_start]<div class="details">호텔조식후 그랜드캐년으로 이동 (1시간 30분) [cite: 2]</div>
+                <div class="details">호텔조식후 그랜드캐년으로 이동 (1시간 30분)</div>
             </div>
             <div class="schedule-item">
                 <div class="time">09:30</div>
                 <div class="details">
-                    [cite_start]<strong>● 그랜드캐년 사우스림 (매더 포인트) 탐방</strong> [cite: 2]<br>
-                    [cite_start]<strong>● 후버댐</strong> [cite: 2]
+                    <strong>● 그랜드캐년 사우스림 (매더 포인트) 탐방</strong><br>
+                    <strong>● 후버댐</strong>
                 </div>
             </div>
             <div class="schedule-item">
                 <div class="time">12:00</div>
-                [cite_start]<div class="details">(중식) 프라자보니타 멕시칸 식당 [cite: 2]</div>
+                <div class="details">(중식) 프라자보니타 멕시칸 식당</div>
             </div>
             <div class="schedule-item">
                 <div class="time">13:00</div>
-                [cite_start]<div class="details">라스베가스로 이동 (4시간 30분)<div class="transport">전용버스 [cite: 2]</div></div>
+                <div class="details">라스베가스로 이동 (4시간 30분)<div class="transport">전용버스</div></div>
             </div>
             <div class="schedule-item">
                 <div class="time">17:30</div>
-                [cite_start]<div class="details">Sphere(외부) [cite: 2]</div>
+                <div class="details">Sphere(외부)</div>
             </div>
             <div class="schedule-item">
                 <div class="time">18:00</div>
-                [cite_start]<div class="details">(석식) 김치식당(한식) [cite: 2]</div>
+                <div class="details">(석식) 김치식당(한식)</div>
             </div>
             <div class="schedule-item">
                 <div class="time">19:00</div>
-                [cite_start]<div class="details">라스베가스 시내투어 [cite: 2]</div>
+                <div class="details">라스베가스 시내투어</div>
             </div>
             <div class="schedule-item">
                 <div class="time">20:30</div>
-                [cite_start]<div class="details">(숙소) Excalibur Hotel [cite: 2]</div>
+                <div class="details">(숙소) Excalibur Hotel</div>
             </div>
         </div>
 
@@ -339,42 +339,42 @@
             <div class="city">캘리코 / LA</div>
             <div class="schedule-item">
                 <div class="time">07:00</div>
-                [cite_start]<div class="details">숙소 출발 [cite: 3] [cite_start]/ (조식) 김치식당 [cite: 3][cite_start]<div class="transport">전용버스 [cite: 3]</div></div>
+                <div class="details">숙소 출발 / (조식) 김치식당<div class="transport">전용버스</div></div>
             </div>
             <div class="schedule-item">
                 <div class="time">08:00</div>
-                [cite_start]<div class="details">이동 [cite: 3]</div>
+                <div class="details">이동</div>
             </div>
             <div class="schedule-item">
                 <div class="time">08:30</div>
-                [cite_start]<div class="details">세븐매직마운틴스 (모하비 국립 보호구역내) [cite: 3]</div>
+                <div class="details">세븐매직마운틴스 (모하비 국립 보호구역내)</div>
             </div>
             <div class="schedule-item">
                 <div class="time">10:50</div>
-                [cite_start]<div class="details">캘리코 은광촌 [cite: 3]</div>
+                <div class="details">캘리코 은광촌</div>
             </div>
             <div class="schedule-item">
                 <div class="time">11:20</div>
-                [cite_start]<div class="details">(중식) Calico House Restaurant(현지식) [cite: 3]</div>
+                <div class="details">(중식) Calico House Restaurant(현지식)</div>
             </div>
             <div class="schedule-item">
                 <div class="time">14:30</div>
-                [cite_start]<div class="details">The Getty 센터 (미술관) [cite: 3]</div>
+                <div class="details">The Getty 센터 (미술관)</div>
             </div>
             <div class="schedule-item">
                 <div class="time">16:00</div>
                 <div class="details">
                     <ul>
-                        [cite_start]<li>Hollywood Walk of Fame HQ (헐리우드 명예거리) [cite: 3]</li>
-                        [cite_start]<li>Griffith Observatory (그리피스 천문대) [cite: 3]</li>
+                        <li>Hollywood Walk of Fame HQ (헐리우드 명예거리)</li>
+                        <li>Griffith Observatory (그리피스 천문대)</li>
                     </ul>
                 </div>
             </div>
             <div class="schedule-item">
                 <div class="time">18:30</div>
                 <div class="details">
-                    (석식) [cite_start]북창동 순두부 [cite: 3]<br>
-                    (숙소) [cite_start]Holiday Inn la Mirada Buena Park [cite: 3]
+                    (석식) 북창동 순두부<br>
+                    (숙소) Holiday Inn la Mirada Buena Park
                 </div>
             </div>
         </div>
@@ -383,60 +383,60 @@
             <div class="city">LA</div>
             <div class="schedule-item">
                 <div class="time">08:30</div>
-                [cite_start]<div class="details">호텔조식후 출발<div class="transport">전용버스 [cite: 3]</div></div>
+                <div class="details">호텔조식후 출발<div class="transport">전용버스</div></div>
             </div>
             <div class="schedule-item">
                 <div class="time">09:30</div>
                 <div class="details">
                     <ul>
-                        [cite_start]<li>자연사 박물관 (1시간 10분 관람) [cite: 3]</li>
-                        [cite_start]<li>LA FC 경기장 (30분 쇼핑) [cite: 3]</li>
+                        <li>자연사 박물관 (1시간 10분 관람)</li>
+                        <li>LA FC 경기장 (30분 쇼핑)</li>
                     </ul>
                 </div>
             </div>
             <div class="schedule-item">
                 <div class="time">12:00</div>
-                [cite_start]<div class="details">(중식) Caltech 카페테리아 (야외 덮밥) [cite: 3]</div>
+                <div class="details">(중식) Caltech 카페테리아 (야외 덮밥)</div>
             </div>
             <div class="schedule-item">
                 <div class="time">13:00</div>
                 <div class="details">
-                    [cite_start]<strong>● 캘리포니아 공대(CALTECH) 탐방</strong> [cite: 3]
+                    <strong>● 캘리포니아 공대(CALTECH) 탐방</strong>
                     <ul>
-                        [cite_start]<li>대학(원)생 연계 그룹별 투어 및 간담회(5개 그룹) [cite: 3]</li>
+                        <li>대학(원)생 연계 그룹별 투어 및 간담회(5개 그룹)</li>
                     </ul>
                 </div>
             </div>
             <div class="schedule-item">
                 <div class="time">14:00</div>
                 <div class="details">
-                    [cite_start]<strong>● 노벨상 수상자 특강</strong> [cite: 3]
+                    <strong>● 노벨상 수상자 특강</strong>
                     <ul>
-                        [cite_start]<li>프랜시스 아놀드 교수 (2018년 노벨 화학상 수상자, 캘리포니아 공대 석좌교수, 로젠생명공학 센터 소장) [cite: 3]</li>
+                        <li>프랜시스 아놀드 교수 (2018년 노벨 화학상 수상자, 캘리포니아 공대 석좌교수, 로젠생명공학 센터 소장)</li>
                     </ul>
                 </div>
             </div>
             <div class="schedule-item">
                 <div class="time">15:30</div>
                 <div class="details">
-                    [cite_start]<strong>USC(University of Southern California) 탐방</strong> [cite: 3]
+                    <strong>USC(University of Southern California) 탐방</strong>
                     <ul>
-                        [cite_start]<li>대학(원)생 연계 그룹별 투어 및 간담회(5개 그룹) [cite: 3]</li>
+                        <li>대학(원)생 연계 그룹별 투어 및 간담회(5개 그룹)</li>
                     </ul>
                 </div>
             </div>
             <div class="schedule-item">
                 <div class="time">17:00</div>
                 <div class="details">
-                    [cite_start]<strong>USC 교수님(션킴, 컴퓨터공학 교수) 특강</strong> [cite: 3]
+                    <strong>USC 교수님(션킴, 컴퓨터공학 교수) 특강</strong>
                     <ul>
-                        [cite_start]<li>주제: 미래컴퓨팅기술에 대한 이해 [cite: 3]</li>
+                        <li>주제: 미래컴퓨팅기술에 대한 이해</li>
                     </ul>
                 </div>
             </div>
             <div class="schedule-item">
                 <div class="time">18:30</div>
-                [cite_start]<div class="details">(석식) 신북경식당 (중국식 코스) [cite: 3]</div>
+                <div class="details">(석식) 신북경식당 (중국식 코스)</div>
             </div>
         </div>
         
@@ -444,32 +444,32 @@
             <div class="city">LA</div>
             <div class="schedule-item">
                 <div class="time">09:00</div>
-                [cite_start]<div class="details">호텔조식후 출발<div class="transport">전용버스 [cite: 3]</div></div>
+                <div class="details">호텔조식후 출발<div class="transport">전용버스</div></div>
             </div>
             <div class="schedule-item">
                 <div class="time">10:00</div>
                 <div class="details">
-                    [cite_start]<strong>월트디즈니 콘서트홀 투어</strong> (Self Guided Audio Tour) [cite: 3]
+                    <strong>월트디즈니 콘서트홀 투어</strong> (Self Guided Audio Tour)
                     <ul>
-                        [cite_start]<li>1호차: 10:00~10:30 투어, 10:30~11:00 차이나타운 [cite: 3]</li>
-                        [cite_start]<li>2호차: 10:00~10:30 차이나타운, 10:30~11:00 투어 [cite: 3]</li>
+                        <li>1호차: 10:00~10:30 투어, 10:30~11:00 차이나타운</li>
+                        <li>2호차: 10:00~10:30 차이나타운, 10:30~11:00 투어</li>
                     </ul>
                 </div>
             </div>
             <div class="schedule-item">
                 <div class="time">12:00</div>
                 <div class="details">
-                    [cite_start]유니버셜 스튜디오 문화 체험 [cite: 3]<br>
-                    (중식) [cite_start]자유식 [cite: 3]
+                    유니버셜 스튜디오 문화 체험<br>
+                    (중식) 자유식
                 </div>
             </div>
             <div class="schedule-item">
                 <div class="time">17:50</div>
-                [cite_start]<div class="details">출구에서 집합 [cite: 3]</div>
+                <div class="details">출구에서 집합</div>
             </div>
             <div class="schedule-item">
                 <div class="time">18:40</div>
-                [cite_start]<div class="details">(석식) 청담식당(한식 고기부페) [cite: 3]</div>
+                <div class="details">(석식) 청담식당(한식 고기부페)</div>
             </div>
         </div>
 
@@ -477,11 +477,11 @@
             <div class="city">**8일차: LA / 출발**</div>
             <div class="schedule-item">
                 <div class="time">오전</div>
-                [cite_start]<div class="details">호텔조식후 로스엔젤레스 국제공항으로 이동 [cite: 3]</div>
+                <div class="details">호텔조식후 로스엔젤레스 국제공항으로 이동</div>
             </div>
             <div class="schedule-item">
                 <div class="time">11:50</div>
-                [cite_start]<div class="details">로스엔젤레스 출발<div class="transport">대한항공 KE 0018 [cite: 3]</div></div>
+                <div class="details">로스엔젤레스 출발<div class="transport">대한항공 KE 0018</div></div>
             </div>
             
             <hr style="margin: 15px 0;">
@@ -489,7 +489,7 @@
             <div class="city">**9일차: 인천 도착**</div>
             <div class="schedule-item">
                 <div class="time">17:40</div>
-                [cite_start]<div class="details">인천공항 도착 [cite: 3]</div>
+                <div class="details">인천공항 도착</div>
             </div>
         </div>
 
@@ -497,30 +497,60 @@
 </div>
 
 <script>
+    const LAST_DAY_KEY = 'lastActiveDay';
+
     function openDay(evt, dayId) {
         var i, tabcontent, tablinks;
 
-        // 모든 탭 내용을 숨김
+        // 1. 모든 탭 내용을 숨김
         tabcontent = document.getElementsByClassName("schedule-day");
         for (i = 0; i < tabcontent.length; i++) {
             tabcontent[i].style.display = "none";
         }
 
-        // 모든 탭 버튼에서 'active' 클래스를 제거
+        // 2. 모든 탭 버튼에서 'active' 클래스를 제거
         tablinks = document.getElementsByClassName("tab-button");
         for (i = 0; i < tablinks.length; i++) {
             tablinks[i].className = tablinks[i].className.replace(" active", "");
         }
 
-        // 현재 탭 내용을 보여주고 버튼에 'active' 클래스 추가
+        // 3. 현재 탭 내용을 보여주고 버튼에 'active' 클래스 추가
         document.getElementById(dayId).style.display = "block";
         evt.currentTarget.className += " active";
+        
+        // 4. 로컬 스토리지에 현재 활성화된 탭 ID 저장
+        localStorage.setItem(LAST_DAY_KEY, dayId);
     }
 
-    // 초기 로드 시 첫 번째 탭이 활성화되도록 설정
+    // 페이지 로드 시 실행되는 함수
     document.addEventListener("DOMContentLoaded", function() {
-        // 첫 번째 탭 버튼을 찾아 클릭 이벤트 시뮬레이션
-        document.querySelector(".tab-button").click();
+        const savedDayId = localStorage.getItem(LAST_DAY_KEY);
+        let targetDayId = 'day1'; // 기본값은 1일차
+
+        if (savedDayId) {
+            targetDayId = savedDayId;
+        }
+
+        // 1. 해당 탭 내용을 보여줌
+        const targetContent = document.getElementById(targetDayId);
+        if (targetContent) {
+            targetContent.style.display = "block";
+        }
+
+        // 2. 해당 탭 버튼에 'active' 클래스 추가
+        // data-day-id 속성을 사용하여 일치하는 버튼을 찾음
+        const targetButton = document.querySelector(`.tab-button[data-day-id="${targetDayId}"]`);
+        if (targetButton) {
+            targetButton.className += " active";
+            
+            // 3. (선택 사항) 탭 메뉴가 화면에 가려지지 않도록 스크롤 이동
+            targetButton.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+        
+        // 만약 로컬 스토리지에 저장된 값이 없거나 잘못된 값이라면, 1일차가 기본값으로 활성화됩니다.
+        if (!savedDayId && !targetButton) {
+            document.querySelector(".tab-button[data-day-id='day1']").click();
+        }
     });
 </script>
 
