@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>IASA 10기 출첵</title>
+    <title>IASA 10기 출첵 & 일정</title>
     <style>
         * {
             margin: 0;
@@ -19,9 +19,60 @@
             touch-action: manipulation;
         }
 
-        .header {
+        /* 메인 탭 네비게이션 */
+        .main-tabs {
             position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            z-index: 3000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .main-tab-btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .main-tab-btn.active {
+            background: white;
+            color: #4A90E2;
+            border-bottom: 3px solid #4A90E2;
+        }
+
+        .main-tab-btn:active {
+            transform: scale(0.98);
+        }
+
+        .main-tab-content {
+            display: none;
+            height: 100vh;
+            padding-top: 56px;
+        }
+
+        .main-tab-content.active {
+            display: block;
+        }
+
+        /* ============ 출석체크 스타일 ============ */
+        .attendance-page {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            position: fixed;
+            top: 56px;
             left: 0;
             right: 0;
             background: white;
@@ -95,8 +146,9 @@
         .container {
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            padding: 54px 12px 12px 12px;
+            height: calc(100vh - 110px);
+            padding: 12px;
+            padding-top: 54px;
             gap: 12px;
         }
 
@@ -253,40 +305,24 @@
         .class-option {
             background: #f8f9fa;
             padding: 16px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
+            font-weight: 600;
             border: 2px solid transparent;
-            text-align: center;
-            font-weight: 500;
         }
 
-        .class-option:active {
-            transform: scale(0.98);
+        .class-option:hover {
+            background: #e9ecef;
         }
 
         .class-option.selected {
-            background: #4A90E2;
-            color: white;
-            border-color: #357ABD;
+            background: #E3F2FD;
+            border-color: #4A90E2;
+            color: #4A90E2;
         }
 
-        /* 스크롤바 스타일 */
-        .section::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .section::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .section::-webkit-scrollbar-thumb {
-            background: #d0d0d0;
-            border-radius: 2px;
-        }
-
-        /* 축하 메시지 */
         .celebration {
             display: none;
             position: fixed;
@@ -294,11 +330,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0,0,0,0.8);
             z-index: 3000;
             align-items: center;
             justify-content: center;
-            animation: fadeIn 0.3s ease-in;
         }
 
         .celebration.active {
@@ -308,105 +343,219 @@
         .celebration-content {
             text-align: center;
             color: white;
-            font-size: 48px;
+            font-size: 32px;
             font-weight: bold;
-            animation: bounce 0.6s ease-in-out;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         .confetti {
             position: fixed;
             width: 10px;
             height: 10px;
-            background: #ffd700;
-            position: absolute;
-            animation: confetti-fall 3s ease-out forwards;
+            top: -10px;
+            animation: fall 3s linear forwards;
+            z-index: 3001;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        @keyframes confetti-fall {
-            0% {
-                transform: translateY(-100vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(720deg);
-                opacity: 0;
+        @keyframes fall {
+            to {
+                top: 100vh;
+                transform: translateX(100px) rotate(720deg);
             }
         }
 
         .firework {
             position: absolute;
-            font-size: 40px;
-            animation: firework-burst 1s ease-out forwards;
+            font-size: 30px;
+            animation: explode 1s ease-out forwards;
         }
 
-        @keyframes firework-burst {
-            0% {
+        @keyframes explode {
+            from {
                 transform: scale(0);
                 opacity: 1;
             }
-            50% {
-                transform: scale(1.5);
-                opacity: 1;
-            }
-            100% {
+            to {
                 transform: scale(2);
                 opacity: 0;
             }
         }
+
+        /* ============ 일정표 스타일 ============ */
+        .schedule-page {
+            height: 100%;
+            overflow: hidden;
+            background-color: #f4f4f4;
+        }
+
+        .schedule-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: calc(100vh - 56px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .schedule-header {
+            background-color: #004d99;
+            color: white;
+            padding: 15px 10px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .tab-nav {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            background-color: #e9e9e9;
+            border-bottom: 2px solid #ccc;
+            padding: 0 5px;
+            flex-shrink: 0;
+        }
+
+        .tab-button {
+            flex: 0 0 auto;
+            background-color: transparent;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: 600;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+            border-bottom: 3px solid transparent;
+            margin: 0 2px;
+            line-height: 1.2;
+        }
+
+        .tab-button.active {
+            background-color: #fff;
+            color: #004d99;
+            border-bottom: 3px solid #004d99;
+        }
+
+        .tab-content {
+            padding: 15px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .schedule-day {
+            display: none;
+        }
+
+        .schedule-day.active {
+            display: block;
+        }
+
+        .schedule-item {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            align-items: flex-start;
+        }
+
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+
+        .time {
+            flex: 0 0 65px;
+            font-weight: bold;
+            color: #555;
+            padding-right: 10px;
+            font-size: 0.9em;
+        }
+
+        .details {
+            flex-grow: 1;
+            font-size: 0.9em;
+        }
+
+        .details strong {
+            color: #004d99;
+        }
+
+        .city {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #004d99;
+            margin-bottom: 8px;
+            padding-top: 5px;
+            border-top: 1px dashed #ccc;
+        }
+
+        .city:first-child {
+            border-top: none;
+        }
+
+        .transport {
+            font-style: italic;
+            color: #888;
+            font-size: 0.8em;
+            margin-top: 3px;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-left">
-            <a href="plan.html" style="text-decoration: none;">
-            <div class="header-title">📅 일정표</div>
-            </a>
-    </div>
-        <div class="header-center">
-            <div class="class-badge"><span id="current-class-display">1</span>반</div>
-        </div>
-        <div class="header-right">
-            <div class="header-controls">
-                <button class="control-btn" onclick="resetAttendance()" title="처음으로 리셋">🔄</button>
-                <button class="control-btn" onclick="decreaseCardSize()">-</button>
-                <button class="control-btn" onclick="increaseCardSize()">+</button>
-                <button class="control-btn settings-btn" onclick="openSettings()">⚙️</button>
+
+<!-- 메인 탭 네비게이션 -->
+<div class="main-tabs">
+    <button class="main-tab-btn active" onclick="switchMainTab('attendance')">출석체크</button>
+    <button class="main-tab-btn" onclick="switchMainTab('schedule')">일정표</button>
+</div>
+
+<!-- 출석체크 페이지 -->
+<div id="attendance" class="main-tab-content active">
+    <div class="attendance-page">
+        <div class="header">
+            <div class="header-left">
+                <div class="header-title">출석 체크</div>
+            </div>
+            <div class="header-center">
+                <div class="class-badge"><span id="current-class-display">1</span>반</div>
+            </div>
+            <div class="header-right">
+                <div class="header-controls">
+                    <button class="control-btn" onclick="decreaseCardSize()" title="카드 크기 줄이기">-</button>
+                    <button class="control-btn" onclick="increaseCardSize()" title="카드 크기 키우기">+</button>
+                    <button class="control-btn settings-btn" onclick="openSettings()" title="반 선택">⚙</button>
+                    <button class="control-btn" onclick="resetAttendance()" title="초기화">↻</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="container">
-        <div class="section unconfirmed">
-            <div class="section-header">
-                <span class="section-title">❌ 미확인</span>
-                <span class="count" id="unconfirmed-count">0</span>
+        <div class="container">
+            <div class="section unconfirmed">
+                <div class="section-header">
+                    <span class="section-title">미확인</span>
+                    <span class="count" id="unconfirmed-count">0</span>
+                </div>
+                <div class="cards-container" id="unconfirmed-container"></div>
             </div>
-            <div class="cards-container" id="unconfirmed-container"></div>
+
+            <div class="section confirmed">
+                <div class="section-header">
+                    <span class="section-title">확인</span>
+                    <span class="count" id="confirmed-count-display">0</span>
+                </div>
+                <div class="cards-container" id="confirmed-container"></div>
+            </div>
         </div>
 
-        <div class="section confirmed">
-            <div class="section-header">
-                <span class="section-title">✅ 확인</span>
-                <span class="count" id="confirmed-count-display">0</span>
-            </div>
-            <div class="cards-container" id="confirmed-container"></div>
-        </div>
-    </div>
-
-    <div class="modal" id="settings-modal">
-        <div class="modal-content">
-            <div class="modal-header">반 선택</div>
-            <div id="class-options">
+        <!-- 설정 모달 -->
+        <div id="settings-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">반 선택</div>
                 <div class="class-option" onclick="selectAndApplyClass(1)">1반</div>
                 <div class="class-option" onclick="selectAndApplyClass(2)">2반</div>
                 <div class="class-option" onclick="selectAndApplyClass(3)">3반</div>
@@ -414,307 +563,759 @@
                 <div class="class-option" onclick="selectAndApplyClass(5)">5반</div>
             </div>
         </div>
-    </div>
 
-    <div class="celebration" id="celebration" onclick="closeCelebration()">
-        <div class="celebration-content">
-            🎉 출석완료!! 🎉
+        <!-- 축하 애니메이션 -->
+        <div id="celebration" class="celebration" onclick="closeCelebration()">
+            <div class="celebration-content">
+                🎉 출석 완료! 🎉
+            </div>
         </div>
     </div>
+</div>
 
-    <script>
-        // IASA 해외탐방 학생 데이터
-        const studentsData = {
-            1: [
-                { name: "권담은", gender: "female" },
-                { name: "김보민", gender: "female" },
-                { name: "정서연", gender: "female" },
-                { name: "권우진", gender: "male" },
-                { name: "김강윤", gender: "male" },
-                { name: "마진욱", gender: "male" },
-                { name: "박민준", gender: "male" },
-                { name: "박상윤", gender: "male" },
-                { name: "서우진", gender: "male" },
-                { name: "이지상", gender: "male" },
-                { name: "이현존", gender: "male" },
-                { name: "장연재", gender: "male" },
-                { name: "정지후", gender: "male" },
-                { name: "최준우", gender: "male" },
-                { name: "홍근우", gender: "male" },
-                { name: "홍재민", gender: "male" }
-            ],
-            2: [
-                { name: "강효린", gender: "female" },
-                { name: "윤지후", gender: "female" },
-                { name: "이영서", gender: "female" },
-                { name: "홍유진", gender: "female" },
-                { name: "강은찬", gender: "male" },
-                { name: "박진우", gender: "male" },
-                { name: "박한선", gender: "male" },
-                { name: "송예준", gender: "male" },
-                { name: "송지환", gender: "male" },
-                { name: "이경록", gender: "male" },
-                { name: "이다현", gender: "male" },
-                { name: "이원준", gender: "male" },
-                { name: "임지후", gender: "male" },
-                { name: "조영준", gender: "male" },
-                { name: "홍민규", gender: "male" },
-                { name: "황선우", gender: "male" }
-            ],
-            3: [
-                { name: "김하경", gender: "female" },
-                { name: "송윤서", gender: "female" },
-                { name: "홍지민", gender: "female" },
-                { name: "김주헌", gender: "male" },
-                { name: "김진원", gender: "male" },
-                { name: "박세현", gender: "male" },
-                { name: "박효성", gender: "male" },
-                { name: "배병찬", gender: "male" },
-                { name: "송민건", gender: "male" },
-                { name: "엄재현", gender: "male" },
-                { name: "윤건우", gender: "male" },
-                { name: "이현택", gender: "male" },
-                { name: "장도연", gender: "male" },
-                { name: "장원준", gender: "male" },
-                { name: "정규원", gender: "male" }
-            ],
-            4: [
-                { name: "남세령", gender: "female" },
-                { name: "백승해", gender: "female" },
-                { name: "신채민", gender: "female" },
-                { name: "강민서", gender: "male" },
-                { name: "김민혁", gender: "male" },
-                { name: "민준우", gender: "male" },
-                { name: "박예성", gender: "male" },
-                { name: "박준모", gender: "male" },
-                { name: "변우석", gender: "male" },
-                { name: "손정훈", gender: "male" },
-                { name: "신재원", gender: "male" },
-                { name: "양병후", gender: "male" },
-                { name: "이제하", gender: "male" },
-                { name: "이충현", gender: "male" },
-                { name: "조인성", gender: "male" },
-                { name: "최준영", gender: "male" }
-            ],
-            5: [
-                { name: "이나윤", gender: "female" },
-                { name: "이세아", gender: "female" },
-                { name: "권도윤", gender: "male" },
-                { name: "권용우", gender: "male" },
-                { name: "길민교", gender: "male" },
-                { name: "김건", gender: "male" },
-                { name: "김건호", gender: "male" },
-                { name: "김재원", gender: "male" },
-                { name: "김정훈", gender: "male" },
-                { name: "박준호", gender: "male" },
-                { name: "심동하", gender: "male" },
-                { name: "윤동현", gender: "male" },
-                { name: "이수혁", gender: "male" },
-                { name: "이용준", gender: "male" },
-                { name: "조신우", gender: "male" }
-            ]
+<!-- 일정표 페이지 -->
+<div id="schedule" class="main-tab-content">
+    <div class="schedule-page">
+        <div class="schedule-container">
+            <div class="schedule-header">해외탐방 일정</div>
+
+            <div class="tab-nav">
+                <button class="tab-button" data-day-id="day1" onclick="openDay(event, 'day1')">1일차<br>10/25(토)</button>
+                <button class="tab-button" data-day-id="day2" onclick="openDay(event, 'day2')">2일차<br>10/26(일)</button>
+                <button class="tab-button" data-day-id="day3" onclick="openDay(event, 'day3')">3일차<br>10/27(월)</button>
+                <button class="tab-button" data-day-id="day4" onclick="openDay(event, 'day4')">4일차<br>10/28(화)</button>
+                <button class="tab-button" data-day-id="day5" onclick="openDay(event, 'day5')">5일차<br>10/29(수)</button>
+                <button class="tab-button" data-day-id="day6" onclick="openDay(event, 'day6')">6일차<br>10/30(목)</button>
+                <button class="tab-button" data-day-id="day7" onclick="openDay(event, 'day7')">7일차<br>10/31(금)</button>
+                <button class="tab-button" data-day-id="day8_9" onclick="openDay(event, 'day8_9')">8~9일차<br>11/1(토)~11/2(일)</button>
+            </div>
+
+            <div class="tab-content">
+                <div id="day1" class="schedule-day">
+                    <div class="city">인천 / 샌프란시스코</div>
+                    <div class="schedule-item">
+                        <div class="time">13:00</div>
+                        <div class="details">인천공항 제2터미널 C카운터앞 집합</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">16:00</div>
+                        <div class="details">인천출발, 샌프란시스코행<div class="transport">대한항공 KE0023</div></div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">10:40</div>
+                        <div class="details">샌프란시스코 도착</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">중식</div>
+                        <div class="details">FILLIES PIZZA (피자, 샐러드)</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">14:30</div>
+                        <div class="details">
+                            <p><strong>● 실리콘  밸리 기업 탐방</strong></p>
+                            <ul>
+                                <li>Google 캠퍼스</li>
+                                <li>Apple Visitor 센터</li>
+                                <li>Tesla Factory Showroom</li>
+                            </ul>
+                            <div class="transport">전용버스</div>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">18:00</div>
+                        <div class="details">
+                            (석식) 콩사랑순두부 (한식) / 마트(푸드맥스)<br>
+                            (숙소) Double Tree by Hilton Newark Fremont
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day2" class="schedule-day">
+                    <div class="city">샌프란시스코</div>
+                    <div class="schedule-item">
+                        <div class="time">08:00</div>
+                        <div class="details">호텔조식후 출발</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">09:00</div>
+                        <div class="details">
+                            <strong>Stanford University 탐방</strong>
+                            <ul>
+                                <li>졸업생 연계 5개 분야별 (물리, 화학, 생명, 수학, 지구·환경) 특강 및 멘토링</li>
+                                <li>캠퍼스 투어</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">12:30</div>
+                        <div class="details">(중식) Stanford 카페테리아 (덮밥)</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">13:30</div>
+                        <div class="details">
+                            <strong>● UC Berkeley 탐방</strong>
+                            <ul>
+                                <li>대학생 연계 그룹별 5개 분야 (물리, 화학, 생명, 수학, 지구·환경) 특강 및 멘토링</li>
+                                <li>캠퍼스 투어</li>
+                            </ul>
+                            <div class="transport">전용버스</div>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">16:30</div>
+                        <div class="details">골든게이트 브리지 관광</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">18:00</div>
+                        <div class="details">
+                            (석식) 대호가든 (한식)<br>
+                            (숙소) DoubleTree by Hilton Hotel Newark - Fremont
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day3" class="schedule-day">
+                    <div class="city">샌프란시스코 / 라스베가스</div>
+                    <div class="schedule-item">
+                        <div class="time">06:00</div>
+                        <div class="details">호텔조식후 출발<div class="transport">전용버스</div></div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">15:30</div>
+                        <div class="details">라스베가스 도착</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">16:00</div>
+                        <div class="details">(중식) 조선면옥(한식)</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">17:00</div>
+                        <div class="details">
+                            <ul>
+                                <li>라스베가스 (자유시간 - 그룹별 자율관광)</li>
+                                <li>The Sphere 외관 및 쇼핑몰</li>
+                                <li>벨라지오 분수쇼 (19:00~)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">20:30</div>
+                        <div class="details">
+                            (석식) 고려관 (한식)<br>
+                            (숙소) Excalibur Hotel & Casino
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day4" class="schedule-day">
+                    <div class="city">라스베가스 / 그랜드캐년</div>
+                    <div class="schedule-item">
+                        <div class="time">06:00</div>
+                        <div class="details">호텔조식후 출발<div class="transport">전용버스</div></div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">10:00</div>
+                        <div class="details">Hoover Dam</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">10:30</div>
+                        <div class="details">66번 국도 경유</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">13:30</div>
+                        <div class="details">그랜드캐년 도착<br>(중식) WE COOK PIZZA &PASTA(현지식 피자, 샐러드)</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">14:00</div>
+                        <div class="details">
+                            <ul>
+                                <li>그랜드캐년 국립공원(웨스트림) 트레일 트래킹</li>
+                                <li>Eagle Point & Guano Point</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">16:30</div>
+                        <div class="details">라스베가스로 이동</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">20:00</div>
+                        <div class="details">
+                            (석식) Kim Chi (한식)<br>
+                            (숙소) Excalibur Hotel & Casino
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day5" class="schedule-day">
+                    <div class="city">캘리코 / LA</div>
+                    <div class="schedule-item">
+                        <div class="time">07:00</div>
+                        <div class="details">숙소 출발 / (조식) 김치식당<div class="transport">전용버스</div></div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">08:00</div>
+                        <div class="details">이동</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">08:30</div>
+                        <div class="details">세븐매직마운틴스 (모하비 국립 보호구역내)</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">10:50</div>
+                        <div class="details">캘리코 은광촌</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">11:20</div>
+                        <div class="details">(중식) Calico House Restaurant(현지식)</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">14:30</div>
+                        <div class="details">The Getty 센터 (미술관)</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">16:00</div>
+                        <div class="details">
+                            <ul>
+                                <li>Hollywood Walk of Fame HQ (헐리우드 명예거리)</li>
+                                <li>Griffith Observatory (그리피스 천문대)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">18:30</div>
+                        <div class="details">
+                            (석식) 북창동 순두부<br>
+                            (숙소) Holiday Inn la Mirada Buena Park
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day6" class="schedule-day">
+                    <div class="city">LA</div>
+                    <div class="schedule-item">
+                        <div class="time">08:30</div>
+                        <div class="details">호텔조식후 출발<div class="transport">전용버스</div></div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">09:30</div>
+                        <div class="details">
+                            <ul>
+                                <li>자연사 박물관 (1시간 10분 관람)</li>
+                                <li>LA FC 경기장 (30분 쇼핑)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">12:00</div>
+                        <div class="details">(중식) Caltech 카페테리아 (야외 덮밥)</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">13:00</div>
+                        <div class="details">
+                            <strong>● 캘리포니아 공대(CALTECH) 탐방</strong>
+                            <ul>
+                                <li>대학(원)생 연계 그룹별 투어 및 간담회(5개 그룹)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">14:00</div>
+                        <div class="details">
+                            <strong>● 노벨상 수상자 특강</strong>
+                            <ul>
+                                <li>프랜시스 아놀드 교수 (2018년 노벨 화학상 수상자, 캘리포니아 공대 석좌교수, 로젠생명공학 센터 소장)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">15:30</div>
+                        <div class="details">
+                            <strong>USC(University of Southern California) 탐방</strong>
+                            <ul>
+                                <li>대학(원)생 연계 그룹별 투어 및 간담회(5개 그룹)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">17:00</div>
+                        <div class="details">
+                            <strong>USC 교수님(션킴, 컴퓨터공학 교수) 특강</strong>
+                            <ul>
+                                <li>주제: 미래컴퓨팅기술에 대한 이해</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">18:30</div>
+                        <div class="details">(석식) 신북경식당 (중국식 코스)</div>
+                    </div>
+                </div>
+
+                <div id="day7" class="schedule-day">
+                    <div class="city">LA</div>
+                    <div class="schedule-item">
+                        <div class="time">09:00</div>
+                        <div class="details">호텔조식후 출발<div class="transport">전용버스</div></div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">10:00</div>
+                        <div class="details">
+                            <strong>월트디즈니 콘서트홀 투어</strong> (Self Guided Audio Tour)
+                            <ul>
+                                <li>1호차: 10:00~10:30 투어, 10:30~11:00 차이나타운</li>
+                                <li>2호차: 10:00~10:30 차이나타운, 10:30~11:00 투어</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">12:00</div>
+                        <div class="details">
+                            유니버셜 스튜디오 문화 체험<br>
+                            (중식) 자유식
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">17:50</div>
+                        <div class="details">출구에서 집합</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">18:40</div>
+                        <div class="details">(석식) 청담식당(한식 고기부페)</div>
+                    </div>
+                </div>
+
+                <div id="day8_9" class="schedule-day">
+                    <div class="city">**8일차: LA / 출발**</div>
+                    <div class="schedule-item">
+                        <div class="time">오전</div>
+                        <div class="details">호텔조식후 로스엔젤레스 국제공항으로 이동</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="time">11:50</div>
+                        <div class="details">로스엔젤레스 출발<div class="transport">대한항공 KE 0018</div></div>
+                    </div>
+                    
+                    <hr style="margin: 15px 0;">
+
+                    <div class="city">**9일차: 인천 도착**</div>
+                    <div class="schedule-item">
+                        <div class="time">17:40</div>
+                        <div class="details">인천공항 도착</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ============ 공통 상태 관리 ============
+    const STATE_KEY = 'iasa_app_state';
+    
+    function saveState() {
+        const state = {
+            mainTab: currentMainTab,
+            classNum: currentClass,
+            attendanceState: Array.from(confirmedStudents),
+            scheduleDay: currentScheduleDay,
+            cardSize: cardSize,
+            fontSize: fontSize
         };
+        localStorage.setItem(STATE_KEY, JSON.stringify(state));
+    }
 
-        let currentClass = 1;
-        let selectedClass = 1;
-        let cardSize = parseInt(localStorage.getItem('cardSize')) || 60;
-        let fontSize = parseInt(localStorage.getItem('fontSize')) || 15;
-        let students = [];
-        let confirmedStudents = new Set();
-
-        // 초기 카드 크기와 폰트 크기 적용
-        document.documentElement.style.setProperty('--card-size', cardSize + 'px');
-        document.documentElement.style.setProperty('--font-size', fontSize + 'px');
-
-        function loadStudents() {
-            students = studentsData[currentClass] || [];
-            confirmedStudents.clear();
-            renderStudents();
+    function loadState() {
+        const saved = localStorage.getItem(STATE_KEY);
+        if (saved) {
+            try {
+                return JSON.parse(saved);
+            } catch (e) {
+                return null;
+            }
         }
+        return null;
+    }
 
-        function renderStudents() {
-            const unconfirmedContainer = document.getElementById('unconfirmed-container');
-            const confirmedContainer = document.getElementById('confirmed-container');
-            
-            unconfirmedContainer.innerHTML = '';
-            confirmedContainer.innerHTML = '';
+    // ============ 메인 탭 전환 ============
+    let currentMainTab = 'attendance';
 
-            // 정렬: 여학생 먼저, 각 성별 내에서 가나다순
-            const sortedStudents = [...students].sort((a, b) => {
-                // 성별 우선 정렬 (여학생이 먼저)
-                if (a.gender !== b.gender) {
-                    return a.gender === 'female' ? -1 : 1;
-                }
-                // 같은 성별 내에서 이름순 (가나다순)
-                return a.name.localeCompare(b.name, 'ko');
-            });
+    function switchMainTab(tabName) {
+        // 탭 버튼 활성화
+        document.querySelectorAll('.main-tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.currentTarget.classList.add('active');
 
-            sortedStudents.forEach((student) => {
-                // 원래 인덱스 찾기
-                const originalIndex = students.findIndex(s => s.name === student.name && s.gender === student.gender);
-                const card = createStudentCard(student, originalIndex);
-                if (confirmedStudents.has(originalIndex)) {
-                    confirmedContainer.appendChild(card);
-                } else {
-                    unconfirmedContainer.appendChild(card);
-                }
-            });
+        // 탭 컨텐츠 표시
+        document.querySelectorAll('.main-tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        document.getElementById(tabName).classList.add('active');
 
-            updateCounts();
-        }
+        currentMainTab = tabName;
+        saveState();
+    }
 
-        function createStudentCard(student, index) {
-            const card = document.createElement('div');
-            card.className = `student-card ${student.gender}`;
-            card.textContent = student.name;
-            card.onclick = () => toggleStudent(index);
-            return card;
-        }
+    // ============ 출석체크 로직 ============
+    const studentsData = {
+        1: [
+            { name: "박수민", gender: "female" },
+            { name: "송다현", gender: "female" },
+            { name: "안시연", gender: "female" },
+            { name: "한동근", gender: "male" },
+            { name: "고주원", gender: "male" },
+            { name: "김도현", gender: "male" },
+            { name: "김민규", gender: "male" },
+            { name: "김준", gender: "male" },
+            { name: "박진우", gender: "male" },
+            { name: "송승준", gender: "male" },
+            { name: "오세현", gender: "male" },
+            { name: "유준범", gender: "male" },
+            { name: "윤인성", gender: "male" },
+            { name: "이도겸", gender: "male" },
+            { name: "장원혁", gender: "male" }
+        ],
+        2: [
+            { name: "김다현", gender: "female" },
+            { name: "김예은", gender: "female" },
+            { name: "안세령", gender: "female" },
+            { name: "윤지오", gender: "female" },
+            { name: "강지원", gender: "male" },
+            { name: "고동현", gender: "male" },
+            { name: "김건우", gender: "male" },
+            { name: "김수현", gender: "male" },
+            { name: "박준형", gender: "male" },
+            { name: "손준혁", gender: "male" },
+            { name: "정세호", gender: "male" },
+            { name: "조우진", gender: "male" },
+            { name: "조혁진", gender: "male" },
+            { name: "지민수", gender: "male" },
+            { name: "최준서", gender: "male" }
+        ],
+        3: [
+            { name: "박가은", gender: "female" },
+            { name: "홍지민", gender: "female" },
+            { name: "김주헌", gender: "male" },
+            { name: "김진원", gender: "male" },
+            { name: "박세현", gender: "male" },
+            { name: "박효성", gender: "male" },
+            { name: "배병찬", gender: "male" },
+            { name: "송민건", gender: "male" },
+            { name: "엄재현", gender: "male" },
+            { name: "윤건우", gender: "male" },
+            { name: "이현택", gender: "male" },
+            { name: "장도연", gender: "male" },
+            { name: "장원준", gender: "male" },
+            { name: "정규원", gender: "male" }
+        ],
+        4: [
+            { name: "남세령", gender: "female" },
+            { name: "백승해", gender: "female" },
+            { name: "신채민", gender: "female" },
+            { name: "강민서", gender: "male" },
+            { name: "김민혁", gender: "male" },
+            { name: "민준우", gender: "male" },
+            { name: "박예성", gender: "male" },
+            { name: "박준모", gender: "male" },
+            { name: "변우석", gender: "male" },
+            { name: "손정훈", gender: "male" },
+            { name: "신재원", gender: "male" },
+            { name: "양병후", gender: "male" },
+            { name: "이제하", gender: "male" },
+            { name: "이충현", gender: "male" },
+            { name: "조인성", gender: "male" },
+            { name: "최준영", gender: "male" }
+        ],
+        5: [
+            { name: "이나윤", gender: "female" },
+            { name: "이세아", gender: "female" },
+            { name: "권도윤", gender: "male" },
+            { name: "권용우", gender: "male" },
+            { name: "길민교", gender: "male" },
+            { name: "김건", gender: "male" },
+            { name: "김건호", gender: "male" },
+            { name: "김재원", gender: "male" },
+            { name: "김정훈", gender: "male" },
+            { name: "박준호", gender: "male" },
+            { name: "심동하", gender: "male" },
+            { name: "윤동현", gender: "male" },
+            { name: "이수혁", gender: "male" },
+            { name: "이용준", gender: "male" },
+            { name: "조신우", gender: "male" }
+        ]
+    };
 
-        function toggleStudent(index) {
-            if (confirmedStudents.has(index)) {
-                confirmedStudents.delete(index);
+    let currentClass = 1;
+    let selectedClass = 1;
+    let cardSize = 60;
+    let fontSize = 15;
+    let students = [];
+    let confirmedStudents = new Set();
+
+    function loadStudents() {
+        students = studentsData[currentClass] || [];
+        renderStudents();
+    }
+
+    function renderStudents() {
+        const unconfirmedContainer = document.getElementById('unconfirmed-container');
+        const confirmedContainer = document.getElementById('confirmed-container');
+        
+        unconfirmedContainer.innerHTML = '';
+        confirmedContainer.innerHTML = '';
+
+        const sortedStudents = [...students].sort((a, b) => {
+            if (a.gender !== b.gender) {
+                return a.gender === 'female' ? -1 : 1;
+            }
+            return a.name.localeCompare(b.name, 'ko');
+        });
+
+        sortedStudents.forEach((student) => {
+            const originalIndex = students.findIndex(s => s.name === student.name && s.gender === student.gender);
+            const card = createStudentCard(student, originalIndex);
+            if (confirmedStudents.has(originalIndex)) {
+                confirmedContainer.appendChild(card);
             } else {
-                confirmedStudents.add(index);
+                unconfirmedContainer.appendChild(card);
             }
-            renderStudents();
+        });
+
+        updateCounts();
+    }
+
+    function createStudentCard(student, index) {
+        const card = document.createElement('div');
+        card.className = `student-card ${student.gender}`;
+        card.textContent = student.name;
+        card.onclick = () => toggleStudent(index);
+        return card;
+    }
+
+    function toggleStudent(index) {
+        if (confirmedStudents.has(index)) {
+            confirmedStudents.delete(index);
+        } else {
+            confirmedStudents.add(index);
         }
+        renderStudents();
+        saveState();
+    }
 
-        function resetAttendance() {
-            confirmedStudents.clear();
-            renderStudents();
+    function resetAttendance() {
+        confirmedStudents.clear();
+        renderStudents();
+        saveState();
+    }
+
+    function updateCounts() {
+        const total = students.length;
+        const confirmed = confirmedStudents.size;
+        const unconfirmed = total - confirmed;
+
+        document.getElementById('confirmed-count-display').textContent = confirmed;
+        document.getElementById('unconfirmed-count').textContent = unconfirmed;
+
+        if (unconfirmed === 0 && total > 0) {
+            showCelebration();
         }
+    }
 
-        function updateCounts() {
-            const total = students.length;
-            const confirmed = confirmedStudents.size;
-            const unconfirmed = total - confirmed;
+    function showCelebration() {
+        const celebration = document.getElementById('celebration');
+        celebration.classList.add('active');
+        createFireworks();
+        setTimeout(() => {
+            closeCelebration();
+        }, 3000);
+    }
 
-            document.getElementById('confirmed-count-display').textContent = confirmed;
-            document.getElementById('unconfirmed-count').textContent = unconfirmed;
+    function closeCelebration() {
+        const celebration = document.getElementById('celebration');
+        celebration.classList.remove('active');
+        document.querySelectorAll('.confetti, .firework').forEach(el => el.remove());
+    }
 
-            // 출석 완료 체크 (미확인이 0명이고 학생이 1명 이상일 때)
-            if (unconfirmed === 0 && total > 0) {
-                showCelebration();
-            }
-        }
-
-        function showCelebration() {
-            const celebration = document.getElementById('celebration');
-            celebration.classList.add('active');
-
-            // 폭죽 효과 생성
-            createFireworks();
-
-            // 3초 후 자동으로 닫기
+    function createFireworks() {
+        const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffd700'];
+        
+        for (let i = 0; i < 50; i++) {
             setTimeout(() => {
-                closeCelebration();
-            }, 3000);
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }, i * 20);
         }
 
-        function closeCelebration() {
-            const celebration = document.getElementById('celebration');
-            celebration.classList.remove('active');
-            // 폭죽 요소들 제거
-            document.querySelectorAll('.confetti, .firework').forEach(el => el.remove());
-        }
-
-        function createFireworks() {
-            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffd700'];
-            
-            // 여러 위치에서 폭죽 생성
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
-                    document.body.appendChild(confetti);
-
-                    setTimeout(() => confetti.remove(), 3000);
-                }, i * 20);
-            }
-
-            // 폭죽 이모지 효과
-            const fireworkEmojis = ['🎆', '🎇', '✨', '💫', '⭐'];
-            for (let i = 0; i < 15; i++) {
-                setTimeout(() => {
-                    const firework = document.createElement('div');
-                    firework.className = 'firework';
-                    firework.textContent = fireworkEmojis[Math.floor(Math.random() * fireworkEmojis.length)];
-                    firework.style.left = (20 + Math.random() * 60) + '%';
-                    firework.style.top = (20 + Math.random() * 60) + '%';
-                    document.getElementById('celebration').appendChild(firework);
-
-                    setTimeout(() => firework.remove(), 1000);
-                }, i * 100);
-            }
-        }
-
-        function increaseCardSize() {
-            if (cardSize < 100) {
-                cardSize += 10;
-                fontSize += 2;
-                document.documentElement.style.setProperty('--card-size', cardSize + 'px');
-                document.documentElement.style.setProperty('--font-size', fontSize + 'px');
-                // localStorage에 저장
-                localStorage.setItem('cardSize', cardSize);
-                localStorage.setItem('fontSize', fontSize);
-            }
-        }
-
-        function decreaseCardSize() {
-            if (cardSize > 40) {
-                cardSize -= 10;
-                // 글자 크기는 최소 15px 유지
-                if (fontSize > 15) {
-                    fontSize -= 2;
-                }
-                document.documentElement.style.setProperty('--card-size', cardSize + 'px');
-                document.documentElement.style.setProperty('--font-size', fontSize + 'px');
-                // localStorage에 저장
-                localStorage.setItem('cardSize', cardSize);
-                localStorage.setItem('fontSize', fontSize);
-            }
-        }
-
-        function openSettings() {
-            selectedClass = currentClass;
-            document.getElementById('settings-modal').classList.add('active');
-            updateClassSelection();
-        }
-
-        function closeSettings() {
-            document.getElementById('settings-modal').classList.remove('active');
-        }
-
-        function selectAndApplyClass(classNum) {
-            currentClass = classNum;
-            selectedClass = classNum;
-            document.getElementById('current-class-display').textContent = currentClass;
-            loadStudents();
-            updateClassSelection();
-            // 짧은 지연 후 모달 닫기
+        const fireworkEmojis = ['🎆', '🎇', '✨', '💫', '⭐'];
+        for (let i = 0; i < 15; i++) {
             setTimeout(() => {
-                closeSettings();
-            }, 300);
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.textContent = fireworkEmojis[Math.floor(Math.random() * fireworkEmojis.length)];
+                firework.style.left = (20 + Math.random() * 60) + '%';
+                firework.style.top = (20 + Math.random() * 60) + '%';
+                document.getElementById('celebration').appendChild(firework);
+                setTimeout(() => firework.remove(), 1000);
+            }, i * 100);
         }
+    }
 
-        function updateClassSelection() {
-            const options = document.querySelectorAll('.class-option');
-            options.forEach((option, index) => {
-                if (index + 1 === selectedClass) {
-                    option.classList.add('selected');
-                } else {
-                    option.classList.remove('selected');
-                }
-            });
+    function increaseCardSize() {
+        if (cardSize < 100) {
+            cardSize += 10;
+            fontSize += 2;
+            document.documentElement.style.setProperty('--card-size', cardSize + 'px');
+            document.documentElement.style.setProperty('--font-size', fontSize + 'px');
+            saveState();
         }
+    }
 
-        // 초기화
+    function decreaseCardSize() {
+        if (cardSize > 40) {
+            cardSize -= 10;
+            if (fontSize > 15) {
+                fontSize -= 2;
+            }
+            document.documentElement.style.setProperty('--card-size', cardSize + 'px');
+            document.documentElement.style.setProperty('--font-size', fontSize + 'px');
+            saveState();
+        }
+    }
+
+    function openSettings() {
+        selectedClass = currentClass;
+        document.getElementById('settings-modal').classList.add('active');
+        updateClassSelection();
+    }
+
+    function closeSettings() {
+        document.getElementById('settings-modal').classList.remove('active');
+    }
+
+    function selectAndApplyClass(classNum) {
+        currentClass = classNum;
+        selectedClass = classNum;
+        confirmedStudents.clear(); // 반 변경시 출석 상태 초기화
         document.getElementById('current-class-display').textContent = currentClass;
         loadStudents();
-    </script>
+        updateClassSelection();
+        saveState();
+        setTimeout(() => {
+            closeSettings();
+        }, 300);
+    }
+
+    function updateClassSelection() {
+        const options = document.querySelectorAll('.class-option');
+        options.forEach((option, index) => {
+            if (index + 1 === selectedClass) {
+                option.classList.add('selected');
+            } else {
+                option.classList.remove('selected');
+            }
+        });
+    }
+
+    // 모달 외부 클릭시 닫기
+    document.getElementById('settings-modal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeSettings();
+        }
+    });
+
+    // ============ 일정표 로직 ============
+    let currentScheduleDay = 'day1';
+
+    function openDay(evt, dayId) {
+        var i, tabcontent, tablinks;
+
+        tabcontent = document.getElementsByClassName("schedule-day");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        tablinks = document.getElementsByClassName("tab-button");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        document.getElementById(dayId).style.display = "block";
+        evt.currentTarget.className += " active";
+        
+        currentScheduleDay = dayId;
+        saveState();
+    }
+
+    // ============ 초기화 ============
+    document.addEventListener("DOMContentLoaded", function() {
+        const savedState = loadState();
+        
+        if (savedState) {
+            // 메인 탭 복원
+            currentMainTab = savedState.mainTab || 'attendance';
+            document.querySelectorAll('.main-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.main-tab-content').forEach(content => content.classList.remove('active'));
+            
+            if (currentMainTab === 'attendance') {
+                document.querySelector('.main-tab-btn:first-child').classList.add('active');
+                document.getElementById('attendance').classList.add('active');
+            } else {
+                document.querySelector('.main-tab-btn:last-child').classList.add('active');
+                document.getElementById('schedule').classList.add('active');
+            }
+
+            // 출석체크 상태 복원
+            currentClass = savedState.classNum || 1;
+            cardSize = savedState.cardSize || 60;
+            fontSize = savedState.fontSize || 15;
+            
+            document.documentElement.style.setProperty('--card-size', cardSize + 'px');
+            document.documentElement.style.setProperty('--font-size', fontSize + 'px');
+            document.getElementById('current-class-display').textContent = currentClass;
+            
+            if (savedState.attendanceState) {
+                confirmedStudents = new Set(savedState.attendanceState);
+            }
+            
+            loadStudents();
+
+            // 일정표 상태 복원
+            currentScheduleDay = savedState.scheduleDay || 'day1';
+            const targetContent = document.getElementById(currentScheduleDay);
+            if (targetContent) {
+                targetContent.style.display = "block";
+            }
+            
+            const targetButton = document.querySelector(`.tab-button[data-day-id="${currentScheduleDay}"]`);
+            if (targetButton) {
+                targetButton.className += " active";
+                targetButton.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        } else {
+            // 기본값으로 초기화
+            document.documentElement.style.setProperty('--card-size', cardSize + 'px');
+            document.documentElement.style.setProperty('--font-size', fontSize + 'px');
+            document.getElementById('current-class-display').textContent = currentClass;
+            loadStudents();
+            
+            // 일정표 기본값
+            const defaultDay = document.getElementById('day1');
+            if (defaultDay) {
+                defaultDay.style.display = "block";
+            }
+            const defaultButton = document.querySelector(".tab-button[data-day-id='day1']");
+            if (defaultButton) {
+                defaultButton.classList.add('active');
+            }
+        }
+    });
+</script>
+
 </body>
 </html>
