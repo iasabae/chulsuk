@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>IASA 10기 출첵 & 일정</title>
+    
+    <!-- PWA 메타 태그 -->
+    <meta name="theme-color" content="#4A90E2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#4A90E2">
+    <meta name="apple-mobile-web-app-title" content="IASA 출첵">
+    <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==">
+    <link rel="manifest" href="#" id="manifest-placeholder">
     <style>
         * {
             margin: 0;
@@ -153,13 +161,21 @@
         }
 
         .section {
-            flex: 1;
             padding: 16px;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             background: white;
             border-radius: 16px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .section.unconfirmed {
+            flex: 0 0 auto;  /* 내용에 맞게 자동 조절 */
+            max-height: 70vh; /* 최대 높이 제한 */
+        }
+
+        .section.confirmed {
+            flex: 1;    /* 남은 공간 차지 */
         }
 
         .section-header {
@@ -201,9 +217,19 @@
 
         .cards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(var(--card-size), 1fr));
             gap: 8px;
             padding: 4px;
+        }
+
+        /* 미확인 영역 카드: 4열 고정 */
+        .unconfirmed .cards-container {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        /* 확인 영역 카드: 5열 고정, 더 작게 */
+        .confirmed .cards-container {
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
         }
 
         :root {
@@ -265,6 +291,9 @@
 
         .confirmed .student-card {
             opacity: 0.6;
+            font-size: calc(var(--font-size) - 3px);
+            min-height: calc(var(--card-size) - 15px);
+            padding: 4px 2px;
         }
 
         /* 설정 모달 */
@@ -1319,6 +1348,137 @@
             }
         }
     });
+
+    // ============ PWA Service Worker 등록 ============
+    if ('serviceWorker' in navigator) {
+        // Manifest 생성 (Blob URL 사용)
+        const manifestData = {
+            name: "IASA 10기 출첵 & 일정",
+            short_name: "IASA 출첵",
+            description: "IASA 10기 출석체크 및 해외탐방 일정표",
+            start_url: window.location.pathname,
+            display: "standalone",
+            background_color: "#f5f7fa",
+            theme_color: "#4A90E2",
+            icons: [
+                {
+                    src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADJ0lEQVR4nO3XQQ0AIAwEsf8+tNFI0SJoQnDN7JzZB4LeCBBTACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhD5AF+1AzbLu3kPAAAAAElFTkSuQmCC",
+                    sizes: "192x192",
+                    type: "image/png",
+                    purpose: "any maskable"
+                },
+                {
+                    src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADJ0lEQVR4nO3XQQ0AIAwEsf8+tNFI0SJoQnDN7JzZB4LeCBBTACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhBRACIKQEQBiCgAEQUgogBEFICIAhD5AF+1AzbLu3kPAAAAAElFTkSuQmCC",
+                    sizes: "512x512",
+                    type: "image/png",
+                    purpose: "any maskable"
+                }
+            ]
+        };
+
+        const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+        const manifestURL = URL.createObjectURL(manifestBlob);
+        document.getElementById('manifest-placeholder').setAttribute('href', manifestURL);
+
+        // Service Worker 코드 (문자열로 정의)
+        const serviceWorkerCode = `
+            const CACHE_NAME = 'iasa-attendance-v1';
+            const urlsToCache = [
+                '${window.location.pathname}'
+            ];
+
+            // Service Worker 설치
+            self.addEventListener('install', (event) => {
+                console.log('[Service Worker] 설치 중...');
+                event.waitUntil(
+                    caches.open(CACHE_NAME)
+                        .then((cache) => {
+                            console.log('[Service Worker] 캐시 열기');
+                            return cache.addAll(urlsToCache);
+                        })
+                        .then(() => self.skipWaiting())
+                );
+            });
+
+            // Service Worker 활성화
+            self.addEventListener('activate', (event) => {
+                console.log('[Service Worker] 활성화');
+                event.waitUntil(
+                    caches.keys().then((cacheNames) => {
+                        return Promise.all(
+                            cacheNames.map((cacheName) => {
+                                if (cacheName !== CACHE_NAME) {
+                                    console.log('[Service Worker] 오래된 캐시 삭제:', cacheName);
+                                    return caches.delete(cacheName);
+                                }
+                            })
+                        );
+                    }).then(() => self.clients.claim())
+                );
+            });
+
+            // Fetch 이벤트 처리 (오프라인 지원)
+            self.addEventListener('fetch', (event) => {
+                event.respondWith(
+                    caches.match(event.request)
+                        .then((response) => {
+                            // 캐시에 있으면 캐시 반환, 없으면 네트워크 요청
+                            if (response) {
+                                return response;
+                            }
+                            return fetch(event.request).then((response) => {
+                                // 유효한 응답인지 확인
+                                if (!response || response.status !== 200 || response.type !== 'basic') {
+                                    return response;
+                                }
+                                // 응답을 캐시에 저장
+                                const responseToCache = response.clone();
+                                caches.open(CACHE_NAME).then((cache) => {
+                                    cache.put(event.request, responseToCache);
+                                });
+                                return response;
+                            });
+                        })
+                        .catch(() => {
+                            // 오프라인 상태에서 캐시도 없을 때
+                            console.log('[Service Worker] 오프라인 - 캐시된 리소스 없음');
+                        })
+                );
+            });
+        `;
+
+        // Service Worker를 Blob으로 생성
+        const swBlob = new Blob([serviceWorkerCode], { type: 'application/javascript' });
+        const swURL = URL.createObjectURL(swBlob);
+
+        // Service Worker 등록
+        navigator.serviceWorker.register(swURL)
+            .then((registration) => {
+                console.log('✅ Service Worker 등록 성공:', registration.scope);
+                console.log('📱 이제 오프라인에서도 사용 가능합니다!');
+                
+                // 업데이트 확인
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'activated') {
+                            console.log('🔄 Service Worker 업데이트됨');
+                        }
+                    });
+                });
+            })
+            .catch((error) => {
+                console.log('❌ Service Worker 등록 실패:', error);
+            });
+
+        // 설치 안내 (iOS Safari용)
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log('💡 홈 화면에 추가 가능합니다!');
+        });
+    }
 </script>
 
 </body>
